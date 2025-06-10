@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Space Portfolio Explorer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            height: auto;
+            overflow-x: hidden;
+        }
+
+        #launch-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        #launch-button {
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: linear-gradient(to right, #ff5f6d, #ffc371);
+            border: none;
+            border-radius: 50px;
+            font-family: 'Orbitron';
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 0 20px #ff5f6d;
+            transition: all 0.3s;
+        }
+
+        #launch-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px #ff5f6d;
+        }
+
+        .space {
+            min-height: 100vh;
+            position: relative;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            overflow: visible;
+            padding-bottom: 200px;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        .solar-system {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #000011 0%, #000000 100%);
+        }
+
+        #sun {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #ffff00, #ff8c00);
+            border-radius: 50%;
+            box-shadow: 0 0 80px #ff8c00, 0 0 160px #ffff00;
+            z-index: 10;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        #sun:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .orbit-path {
+            position: absolute;
+            border: 1px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .planet {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            cursor: pointer;
+            transition: transform 0.3s;
+            z-index: 2;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+        }
+        
+        .planet img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .info-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 30, 0.9);
+            padding: 30px;
+            border: 2px solid #00ffff;
+            border-radius: 15px;
+            max-width: 400px;
+            display: none;
+            z-index: 20;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .info-panel h2 {
+            color: #00ffff;
+            margin-top: 0;
+            border-bottom: 1px solid #00ffff;
+            padding-bottom: 10px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: linear-gradient(to right, #00ffff, #0088ff);
+            color: black;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #00ffff;
+        }
+
+        #rocket {
+            position: absolute;
+            width: 60px;
+            height: 100px;
+            background: url('https://cdn-icons-png.flaticon.com/128/6148/6148867.png') center/contain no-repeat;
+            transform: translate(-50%, -50%) rotate(90deg);
+            z-index: 50;
+            transition: all 0.2s;
+            filter: drop-shadow(0 0 10px rgba(255, 100, 0, 0.8));
+        }
+
+        #controls {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #00ffff;
+            z-index: 30;
+        }
+
+       
+        #about { 
+            width: 40px;
+            height: 40px;
+            animation: orbit 35s linear infinite;
+        }
+
+        #skills { 
+            width: 60px;
+            height: 60px;
+            animation: orbit 38s linear infinite;
+        }
+
+        #education { 
+            width: 65px;
+            height: 65px;
+            animation: orbit 41s linear infinite;
+        }
+
+        #projects {
+            width: 75px;
+            height: 75px;
+            animation: orbit 44s linear infinite;
+        }
+
+        #experience { 
+            width: 100px;
+            height: 100px;
+            animation: orbit 47s linear infinite;
+        }
+
+        #contact { 
+            width: 70px;
+            height: 70px;
+            animation: orbit 50s linear infinite;
+            object-fit: cover;
+            
+
+        }
+
+        #resume {
+            width: 70px;
+            height: 70px;
+            animation: orbit 53s linear infinite;
+        }
+
+        @keyframes orbit {
+            0% { 
+                transform: translate(-50%, -50%) rotate(0deg) translateX(var(--orbit-radius)) rotate(0deg);
+            }
+            100% { 
+                transform: translate(-50%, -50%) rotate(360deg) translateX(var(--orbit-radius)) rotate(-360deg);
+            }
+        }
+
+        /* Saturn's ring */
+        #contact::after {
+             content: '';
+    position: absolute;
+    width: 200px;
+    height: 20px;
+    background: linear-gradient(
+        to bottom,
+        transparent 10%,
+        rgba(255, 215, 0, 0.6) 50%,
+        transparent 90%
+    );
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(20deg);
+    pointer-events: none;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+    animation: ring-rotate 30s linear infinite;
+}
+
+@keyframes ring-rotate {
+    from { transform: translate(-50%, -50%) rotate(20deg); }
+    to { transform: translate(-50%, -50%) rotate(380deg); }
+}
+
+        /* @keyframes fadeOut {
+            to { opacity: 0; transform: scale(0.8); }
+        } */
+
+        
+        .rocket-trail {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 100, 0, 0.6);
+            border-radius: 50%;
+            animation: trailFade 2s ease-out forwards;
+        }
+
+        @keyframes trailFade {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+    </style>
+</head>
+<body>
+    <div id="launch-screen">
+        <h1>SPACE PORTFOLIO</h1>
+        <h2>Mission Control</h2>
+        <button id="launch-button">INITIATE LAUNCH SEQUENCE</button>
+    </div>
+
+    <div class="space" style="display: none;">
+        <div class="solar-system" id="solarSystem">   
+            <div id="sun"></div>
+
+            <!-- Planets  -->
+            <div class="planet" id="about" style="--orbit-radius: 150px">
+                <img src="https://res.cloudinary.com/dk-find-out/image/upload/q_80,w_1920,f_auto/AW_Mercury_ladprw.jpg" alt="mercury">
+                <div class="info-panel">
+                    <h2>About Me</h2>
+                    <p>Suhani Tiwari</p>
+                    <p>Working on Full stack developer, Softwares </p>
+                    
+                </div>
+            </div>
+
+            <div class="planet" id="skills" style="--orbit-radius: 220px">
+                <img src="https://res.cloudinary.com/dk-find-out/image/upload/q_80,w_1920,f_auto/AW_Venus_nli6oy.jpg">
+                <div class="info-panel">
+                    <h2>Skills</h2>
+                    <ul>
+                        <li><b>Programming languages:</b> JavaScript, Python, Java, C++, C</li>
+                        <li><b>Frontend:</b> React, HTML, CSS, Tailwind CSS</li>
+                        <li><b>Backend:</b> Node.js, Express.js, Next.js</li>
+                        <li><b>Databases:</b> MongoDB, MySQL</li>
+                        <li><b>Tools:</b> Git, Docker, VS Code</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="planet" id="education" style="--orbit-radius: 290px">
+                <img src="https://tse1.mm.bing.net/th/id/OIP.q6W9u2pZhf_fSnPRcptgmgHaHa?rs=1&pid=ImgDetMain">
+                <div class="info-panel">
+                    <h2>Education</h2>
+                    <p>Bachelor of Technology in Computer Science and Engineering<br>
+                    Amity University, Lucknow Campus | CGPA: 8.31(Current)</p>
+                </div>
+            </div>
+
+            <div class="planet" id="projects" style="--orbit-radius: 360px">
+                <img src="https://th.bing.com/th/id/OIP.YqviH4ZzFMp7H7jRU-kytwHaHZ?rs=1&pid=ImgDetMain">
+                <div class="info-panel">
+                    <h2>Projects</h2>
+                    <ul>
+                        <li>Flappy Bird</li>
+                        <li>Portfolio Website</li>
+                        <li>Weather app</li>
+                        <li>Study assistance bot /li>
+                        <li>Skill Craft projects</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="planet" id="experience" style="--orbit-radius: 430px">
+                <img src="https://science4fun.info/wp-content/uploads/2016/11/jupiter-planet.jpg">
+                <div class="info-panel">
+                    <h2>Experience</h2>
+                    <p>Front-end Developer (skillcraft)</p>
+                    <p>Member of Waffle and alias club</p>
+                    <p>Participated of UI/UX figma Workshop</p>
+                </div>
+            </div>
+
+            <div class="planet" id="contact" style="--orbit-radius: 500px">
+                <img src="https://sos.noaa.gov/ftp_mirror/astronomy/saturn/original/media/thumbnail_big.jpg" alt="Saturn">
+                <div class="info-panel">
+                    
+                    <h2>Contact</h2>
+                    <p>Email: tiwarisuhani459@email.com</p>
+                    <p>Contact:8957816091 </p>
+                    <a href="https://leetcode.com/u/sushiiiii/" class="link">My LeetCode Profile</a>
+                    <a href="https://github.com/suhani2406"
+                    class="link">My Github profile</a>
+                    <a href="https://www.linkedin.com/in/suhani-tiwari-1196ab233/"
+                    class="link">My linkedin Profile</a>
+                </div>
+            </div>
+
+            <div class="planet" id="resume" style="--orbit-radius: 570px">
+                <img src="https://as1.ftcdn.net/v2/jpg/05/89/51/68/1000_F_589516820_sxqjCJzhQAIx2Gk08XIgAsFi1VeeYHn5.jpg" alt="Uranus">
+                <div class="info-panel">
+                    <h2>Download CV</h2>
+                    <p>Get my complete professional profile</p>
+                    <a href="SUHANI_RESUME_2025[1] (1) (2).pdf" class="download-btn" download>Download PDF</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="rocket"></div>
+
+        <div id="controls">
+            <h3>ORBITAL CONTROLS</h3>
+            <p>8: Orbit Outward</p>
+            <p>2: Orbit Inward</p>
+            <p>4: Move Counter-Clockwise</p>
+            <p>6: Move Clockwise</p>
+            <p>5: Stop</p>
+            <p>Click Planets for Info</p>
+            <p style="font-size: 12px; color: #00ffff;">Current Orbit: <span id="currentOrbit">Sun</span></p>
+        </div>
+    </div>
+
+    <script>
+        function createStars() {
+            const space = document.querySelector('.space');
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.width = `${Math.random() * 3 + 1}px`;
+                star.style.height = star.style.width;
+                star.style.setProperty('--duration', `${Math.random() * 5 + 3}s`);
+                space.appendChild(star);
+            }
+        }
+
+        function createOrbitPaths() {
+            const solarSystem = document.getElementById('solarSystem');
+            const orbitRadii = [150, 220, 290, 360, 430, 500, 570]; //orbit ka path
+            
+            orbitRadii.forEach(radius => {
+                const orbit = document.createElement('div');
+                orbit.className = 'orbit-path';
+                orbit.style.width = `${radius * 2}px`;
+                orbit.style.height = `${radius * 2}px`;
+                solarSystem.appendChild(orbit);
+            });
+        }
+
+        // idhar se launch hoga sigh
+        document.getElementById('launch-button').addEventListener('click', function() {
+            const launchScreen = document.getElementById('launch-screen');
+            const space = document.querySelector('.space');
+            
+            // ha beta countdown shuru kro
+            this.textContent = '3...';
+            setTimeout(() => { this.textContent = '2...'; }, 1000);
+            setTimeout(() => { this.textContent = '1...'; }, 2000);
+            setTimeout(() => {
+                this.textContent = 'LAUNCH!';
+                launchScreen.style.animation = 'fadeOut 1s forwards';
+                
+                setTimeout(() => {
+                    launchScreen.style.display = 'none';
+                    space.style.display = 'block';
+                    createStars();
+                    createOrbitPaths();
+                    initializeRocket();
+                }, 1000);
+            }, 3000);
+        });
+
+        //rocket systum
+        const rocket = document.getElementById('rocket');
+        const solarSystem = document.getElementById('solarSystem');
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        
+        // Orbit
+        const orbitRadii = [0, 150, 220, 290, 360, 430, 500, 570]; // 0 = sun, others match planets
+        const orbitNames = ['Sun', 'About (Mercury)', 'Skills (Venus)', 'Education (Earth)', 'Projects (Mars)', 'Experience (Jupiter)', 'Contact (Saturn)', 'Resume (Uranus)'];
+        
+        let currentOrbitIndex = 0;
+        let currentAngle = 0; 
+        let movementInterval = null;
+        let currentPlanet = null;
+        let isMoving = false;
+
+        function initializeRocket() {
+            // Center the rocket on the sun initially
+            rocket.style.left = `${centerX}px`;
+            rocket.style.top = `${centerY}px`;
+            updateOrbitDisplay();
+        }
+
+        function updateRocketPosition() {
+            const currentRadius = orbitRadii[currentOrbitIndex];
+            const radians = (currentAngle * Math.PI) / 180;
+            
+            const rocketX = centerX + Math.cos(radians) * currentRadius;
+            const rocketY = centerY + Math.sin(radians) * currentRadius;
+            
+            rocket.style.left = `${rocketX}px`;
+            rocket.style.top = `${rocketY}px`;
+            
+            // Calculate the angle the rocket should face (tangent to the orbit)
+            let rocketAngle = currentAngle + 90; 
+            rocket.style.transform = `translate(-50%, -50%) rotate(${rocketAngle}deg)`;
+            
+            // Create rocket trail effect
+            if (isMoving) {
+                createTrail(rocketX, rocketY);
+            }
+            
+            checkProximity(rocketX, rocketY);
+        }
+
+        function createTrail(x, y) {
+            if (Math.random() < 0.3) {
+                const trail = document.createElement('div');
+                trail.className = 'rocket-trail';
+                trail.style.left = `${x}px`;
+                trail.style.top = `${y}px`;
+                solarSystem.appendChild(trail);
+                
+                // Remove trail after animation completes
+                setTimeout(() => {
+                    if (trail.parentNode) {
+                        trail.parentNode.removeChild(trail);
+                    }
+                }, 2000);
+            }
+        }
+
+        function updateOrbitDisplay() {
+            document.getElementById('currentOrbit').textContent = orbitNames[currentOrbitIndex];
+        }
+
+        // control ka itna issue h re baba
+        document.addEventListener('keydown', (e) => {
+            const speed = 2; // Increased speed for better responsiveness
+            const keyActions = {
+                '8': () => changeOrbit(1),      // Move outward
+                '2': () => changeOrbit(-1),     // Move inward
+                '6': () => {                    // Move clockwise
+                    isMoving = true;
+                    startOrbitalMovement(speed);
+                },
+                '4': () => {                    // Move counter-clockwise
+                    isMoving = true;
+                    startOrbitalMovement(-speed);
+                },
+                '5': () => {                   // Stop
+                    isMoving = false;
+                    stopMovement();
+                }
+            };
+
+            if (keyActions[e.key]) {
+                keyActions[e.key]();
+            }
+        });
+
+        function changeOrbit(direction) {
+            const newOrbitIndex = currentOrbitIndex + direction;
+            if (newOrbitIndex >= 0 && newOrbitIndex < orbitRadii.length) {
+                currentOrbitIndex = newOrbitIndex;
+                updateRocketPosition();
+                updateOrbitDisplay();
+                
+                // If moving to a planet orbit, snap to the closest planet
+                if (currentOrbitIndex > 0) {
+                    snapToClosestPlanet();
+                }
+            }
+        }
+
+        function snapToClosestPlanet() {
+            if (currentOrbitIndex === 0) return; // Can't snap to sun
+            
+            const planets = document.querySelectorAll('.planet');
+            const targetPlanet = planets[currentOrbitIndex - 1];
+            
+            if (targetPlanet) {
+                const rect = targetPlanet.getBoundingClientRect();
+                const planetX = rect.left + rect.width / 2;
+                const planetY = rect.top + rect.height / 2;
+                
+                // Calculate angle to the planet
+                const deltaX = planetX - centerX;
+                const deltaY = planetY - centerY;
+                const angleToTarget = (Math.atan2(deltaY, deltaX) * 180) / Math.PI;
+                
+                currentAngle = angleToTarget;
+                updateRocketPosition();
+            }
+        }
+
+        function startOrbitalMovement(speed) {
+            stopMovement();
+            movementInterval = setInterval(() => {
+                currentAngle += speed;
+                if (currentAngle >= 360) currentAngle -= 360;
+                if (currentAngle < 0) currentAngle += 360;
+                updateRocketPosition();
+            }, 20);
+        }
+
+        function stopMovement() {
+            if (movementInterval) {
+                clearInterval(movementInterval);
+                movementInterval = null;
+            }
+        }
+
+        function checkProximity(rocketX, rocketY) {
+            document.querySelectorAll('.planet').forEach(planet => {
+                const rect = planet.getBoundingClientRect();
+                const planetCenterX = rect.left + rect.width/2;
+                const planetCenterY = rect.top + rect.height/2;
+                const distance = Math.hypot(rocketX - planetCenterX, rocketY - planetCenterY);
+
+                if (distance < 80) {
+                    if (currentPlanet !== planet) {
+                        if (currentPlanet) {
+                            currentPlanet.querySelector('.info-panel').style.display = 'none';
+                        }
+                        planet.querySelector('.info-panel').style.display = 'block';
+                        currentPlanet = planet;
+                    }
+                } else {
+                    if (currentPlanet === planet) {
+                        planet.querySelector('.info-panel').style.display = 'none';
+                        currentPlanet = null;
+                    }
+                }
+            });
+        }
+
+        // Planet info?
+        document.querySelectorAll('.planet').forEach(planet => {
+            planet.addEventListener('click', function() {
+                document.querySelectorAll('.info-panel').forEach(panel => {
+                    panel.style.display = 'none';
+                });
+                this.querySelector('.info-panel').style.display = 'block';
+                currentPlanet = this;
+            });
+        });
+
+        // ALL HAIL SSUN
+        let infoVisible = false;
+        document.getElementById('sun').addEventListener('click', function() {
+            infoVisible = !infoVisible;
+            document.querySelectorAll('.info-panel').forEach(panel => {
+                panel.style.display = infoVisible ? 'block' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

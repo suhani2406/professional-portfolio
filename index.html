@@ -175,7 +175,30 @@
             filter: drop-shadow(0 0 10px rgba(255, 100, 0, 0.8));
         }
 
+
+        /* new changes  */
+
+        #mobile-controls button {
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(to right, #00ffff, #0088ff);
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+}
+
+#mobile-controls button:hover {
+    box-shadow: 0 0 10px #00ffff;
+    transform: scale(1.05);
+}
+
+
         #controls {
+
+
             position: fixed;
             bottom: 20px;
             left: 20px;
@@ -340,7 +363,7 @@
                         <li>Flappy Bird</li>
                         <li>Portfolio Website</li>
                         <li>Weather app</li>
-                        <li>Study assistance bot /li>
+                        <li>Study assistance bot </li>
                         <li>Skill Craft projects</li>
                     </ul>
                 </div>
@@ -376,7 +399,7 @@
                 <div class="info-panel">
                     <h2>Download CV</h2>
                     <p>Get my complete professional profile</p>
-                    <a href="SUHANI_RESUME_2025[1] (1) (2).pdf" class="download-btn" download>Download PDF</a>
+                    <a href="SUHANI RESUME 2025.pdf" class="download-btn" download>Download PDF</a>
                 </div>
             </div>
         </div>
@@ -384,6 +407,20 @@
         <div id="rocket"></div>
 
         <div id="controls">
+
+            <!-- //new changes  -->
+
+<div id="mobile-controls" style="margin-top: 10px; display: flex; flex-direction: column; gap: 5px;">
+    <button onclick="changeOrbit(1)">⬆️ Orbit Outward</button>
+    <button onclick="changeOrbit(-1)">⬇️ Orbit Inward</button>
+    <div style="display: flex; justify-content: space-between;">
+        <button onclick="startOrbitalMovement(-2)">⬅️ Rotate Left</button>
+        <button onclick="stopMovement()">⏹️ Stop</button>
+        <button onclick="startOrbitalMovement(2)">➡️ Rotate Right</button>
+    </div>
+</div>
+
+
             <h3>ORBITAL CONTROLS</h3>
             <p>8: Orbit Outward</p>
             <p>2: Orbit Inward</p>
@@ -468,6 +505,17 @@
             rocket.style.top = `${centerY}px`;
             updateOrbitDisplay();
         }
+
+    //  new changes 
+    window.addEventListener('DOMContentLoaded', () => {
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+    if (!isMobile) {
+        document.getElementById('mobile-controls').style.display = 'none';
+    }
+});
+
+
+
 
         function updateRocketPosition() {
             const currentRadius = orbitRadii[currentOrbitIndex];

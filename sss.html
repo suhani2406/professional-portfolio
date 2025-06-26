@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suhani Tiwari | Full-Stack Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #0e1726;
+      color: #f1f1f1;
+      overflow-x: hidden;
+    }
+    header {
+      padding: 1.2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(14, 23, 38, 0.95);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      color: #00e6e6;
+    }
+    nav a {
+      color: #bbb;
+      margin-left: 1.5rem;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #00e6e6;
+    }
+    .hero {
+      text-align: center;
+      padding: 6rem 2rem;
+      background: linear-gradient(145deg, #0e1726, #1b2a47);
+    }
+    .hero h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .typed-text {
+      color: #00e6e6;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: #ccc;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .section {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .section h3 {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+      color: #00e6e6;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(12px);
+      padding: 1.5rem;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      background: rgba(0, 230, 230, 0.08);
+    }
+    .card strong {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+      color: #ffffff;
+    }
+    .card small {
+      color: #a0aec0;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #888;
+      background-color: #0e1726;
+    }
+    .text-block {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 12px;
+      line-height: 1.7;
+      color: #ddd;
+    }
+    a {
+      color: #00e6e6;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Suhani</h1>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#achievements">Achievements</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero" data-aos="fade-up" style="position: relative; background: radial-gradient(ellipse at top, #1b2a47 0%, #0e1726 100%);">
+  <img src="suhani portfolio picture .jpg" alt="Profile Picture" style="width: 160px; height: 170px; border-radius: 50%; border: 3px solid #00e6e6; margin-bottom: 1.5rem; box-shadow: 0 0 20px rgba(0,230,230,0.5);">
+  <h2>Hi, I’m <span class="typed-text"></span></h2>
+  <p>Full-Stack Developer | Problem Solver | UI/UX Enthusiast — passionate about crafting polished, scalable, and user-first digital experiences.</p>
+  <canvas id="stars" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:-1;"></canvas>
+</section>
+<script>
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = document.querySelector('.hero').offsetHeight;
+  const stars = Array.from({ length: 200 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.2,
+    d: Math.random() * 100
+  }));
+  function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#00e6e6';
+    stars.forEach(star => {
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+  drawStars();
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = document.querySelector('.hero').offsetHeight;
+    drawStars();
+  });
+</script>
+
+    <section class="section" id="about" data-aos="fade-up">
+    <h3>About Me</h3>
+    <div class="text-block">
+      I'm a B.Tech Computer Science student at Amity University, Lucknow with a CGPA of 8.31. I specialize in full-stack development using React, Node.js, MongoDB, and Python. I love designing clean UI/UX, building smart AI tools, and solving real-world problems through code.
+    </div>
+  </section>
+
+  <section class="section" id="skills" data-aos="fade-up">
+    <h3>Skills</h3>
+    <div class="grid" id="skills-container"></div>
+  </section>
+
+  <section class="section" id="projects" data-aos="fade-up">
+    <h3>Projects</h3>
+    <div class="grid" id="projects-container"></div>
+  </section>
+
+  <section class="section" id="experience" data-aos="fade-up">
+    <h3>Experience</h3>
+    <div class="text-block">
+      <strong>Web Development Intern - Skill Craft Technology (Dec 2024 – Present)</strong><br>
+      Built projects like Stopwatch, To-Do App, and Tic Tac Toe using React and Tailwind. Implemented CRUD, reduced load times by 20%.<br><br>
+      <strong>UI/UX Coordinator - Amity Innovation Club (Mar 2024)</strong><br>
+      Led design workshops for 100+ students, focused on Figma, prototyping, and responsive layouts.<br><br>
+      <strong>Volunteer - WAFFLE Hack Club & ALIAS Club</strong><br>
+      Assisted in managing coding events and solving frontend/backend issues during live hackathons.
+    </div>
+  </section>
+
+  <section class="section" id="achievements" data-aos="fade-up">
+    <h3>Achievements</h3>
+    <div class="text-block">
+      - Solved 250+ LeetCode problems (focused on DSA, Trees, Graphs, DP).<br>
+      - Certified in Java, CSS, and AI (HackerRank).<br>
+      - UI/UX Workshop Coordinator Certificate.<br>
+      - Forage Accenture Virtual Internship Completion.<br>
+      - Ranked 1st in school for JEE Mains and awarded Best Disciplinary Student.
+    </div>
+  </section>
+
+  <section class="section" id="contact" data-aos="fade-up">
+    <h3>Contact</h3>
+    <div class="text-block">
+      📧 Email: <a href="mailto:tiwarisuhani459@gmail.com">tiwarisuhani459@gmail.com</a><br>
+      📞 Phone: 8957816091<br>
+      💼 GitHub: <a href="https://github.com/suhani2406" target="_blank">github.com/suhani2406</a><br>
+      🔗 LinkedIn: <a href="https://linkedin.com/in/suhani-tiwari-1196ab233" target="_blank">linkedin.com/in/suhani-tiwari</a>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Suhani Tiwari • Designed with 💙 in React, Tailwind, & Love
+  </footer>
+
+  <script>
+    new Typed(".typed-text", {
+      strings: ["Suhani Tiwari", "Full-Stack Developer", "UI/UX Enthusiast", "Creative Technologist"],
+      typeSpeed: 60,
+      backSpeed: 40,
+      loop: true
+    });
+
+    const skills = [
+      "Full-Stack Development",
+      "Basics of AI/ML",
+      "Microsoft Azure",
+      "Data Structures & Algorithms (DSA)",
+      "Communication",
+      "Python",
+      "C++",
+      "Java",
+      "System Design",
+      "Teamwork"
+    ];
+    const skillContainer = document.getElementById("skills-container");
+    skills.forEach(skill => {
+      const div = document.createElement("div");
+      div.className = "card";
+      div.innerText = skill;
+      skillContainer.appendChild(div);
+    });
+
+    const projects = [
+      { name: "Study Assistant Bot", desc: "AI-powered study bot using Python, OpenAI, Telegram API" },
+      { name: "Space Portfolio", desc: "Interactive 3D portfolio with Three.js and NASA APIs" },
+      { name: "Flappy Bird Clone", desc: "Classic game built with JS Canvas and physics" },
+      { name: "Cafe Landing Page", desc: "Animated, responsive UI with carousel and contact form" },
+      { name: "Weather Forecasting Website", desc: "React-based weather app using Tailwind and APIs" }
+    ];
+    const projectContainer = document.getElementById("projects-container");
+    projects.forEach(p => {
+      const div = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `<strong>${p.name}</strong><small>${p.desc}</small>`;
+      projectContainer.appendChild(div);
+    });
+  </script>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init({ once: true });
+  </script>
+</body>
+</html>
